@@ -68,10 +68,11 @@ class Weather:
     def get_weather_forecast(self, intentMessage):
         # Parse the query slots, and fetch the weather forecast from Open Weather Map's API
         locations = []
-        for (slot_value, slot) in intentMessage.slots.items():
-            if slot_value not in ['forecast_condition_name', 'forecast_start_date_time',
-                                  'forecast_item', 'forecast_temperature_name']:
-                locations.append(slot[0].slot_value.value)
+        if isinstance(intentMessage.slots,dict):
+            for (slot_value, slot) in intentMessage.slots.items():
+                if slot_value not in ['forecast_condition_name', 'forecast_start_date_time',
+                                      'forecast_item', 'forecast_temperature_name']:
+                    locations.append(slot[0].slot_value.value)
         location_objects = [loc_obj for loc_obj in locations if loc_obj is not None]
         if location_objects:
             location = location_objects[0].value.encode('utf8')
